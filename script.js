@@ -151,12 +151,17 @@ function finalizarSessao() {
         const gateiros = JSON.parse(localStorage.getItem('gateiros'));
         const numGateirosVisiveis = parseInt(localStorage.getItem('numGateirosVisiveis')) || gateiros.length;
 
-        // Itera apenas sobre os gateiros visíveis para resetar as fichas
-        for (let i = 0; i < numGateirosVisiveis; i++) {
-            const gateiro = gateiros[i];
-            const saldoAtualReais = gateiro.fichas * VALOR_FICHA;
-            gateiro.saldoAcumulado += saldoAtualReais;
-            gateiro.fichas = 0;
+        // Itera sobre todos os gateiros, mas zera as fichas apenas dos visíveis
+        for (let i = 0; i < gateiros.length; i++) {
+             const gateiro = gateiros[i];
+            if (i < numGateirosVisiveis) {
+                 const saldoAtualReais = gateiro.fichas * VALOR_FICHA;
+                gateiro.saldoAcumulado += saldoAtualReais;
+                gateiro.fichas = 0;
+            } else {
+                 // Mantém os dados dos gateiros ocultos
+                gateiro.fichas = gateiro.fichas; 
+            }
         }
 
         localStorage.setItem('gateiros', JSON.stringify(gateiros));
@@ -174,3 +179,4 @@ function resetarPagina() {
 
 // Inicialização da página
 document.addEventListener('DOMContentLoaded', renderizarPagina);
+                          
