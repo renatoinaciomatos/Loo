@@ -174,4 +174,3 @@ function resetarPagina() {
 
 // Inicialização da página
 document.addEventListener('DOMContentLoaded', renderizarPagina);
-    
